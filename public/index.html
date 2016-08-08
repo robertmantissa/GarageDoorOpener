@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<title>Garagedörren</title>
+		<script>
+			function DoorCommand(command, port) {
+			    var xhttp = new XMLHttpRequest();
+			    xhttp.open("get", "/api/" + command + "/" + port, false);
+			    xhttp.setRequestHeader("Content-type", "application/json");
+			    xhttp.send();
+			    var response = JSON.parse(xhttp.responseText);
+			}
+		</script>
+		  <meta charset="utf-8">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+  <!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/local.css">
+  <script src="/script/jquery.min.js"></script>
+  <script src="/script/bootstrap.min.js"></script>
+
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="col-xs-6">
+				<div class="row">
+					<p class="heading">Port 1</p> 
+				</div>
+				<div class="row">
+					<button type="button " class="button btn-lg" onclick="DoorCommand('open',1)">Öppna</button>
+				</div>
+				<div class="row">
+					<button type="button" class="button btn-danger" onclick="DoorCommand('stop',1)">Stopp</button>
+				</div>
+				<div class="row">
+					<button type="button" class="button btn-lg" onclick="DoorCommand('close',1)">Stäng</button>
+				</div>
+			</div>
+			<div  class="col-xs-6"  >
+				<div class="row">
+					<p class="heading">Port 2</p> 
+				</div>
+				<div class="row">
+					<button type="button" class="button btn-lg" onclick="DoorCommand('open',2)">Öppna</button>
+				</div>
+				<div class="row">
+					<button type="button" class="button btn-lg btn-danger" onclick="DoorCommand('stop',2)">Stopp</button>
+				</div>
+				<div class="row">
+					<button type="button" class="button  btn-lg" onclick="DoorCommand('close',2)">Stäng</button>
+				</div>
+			</div>
+
+		</div>
+</html>

@@ -1,0 +1,26 @@
+{
+  "name": "nodejstest",
+  "version": "0.1.0",
+  "description": "Various test projects. Mostly GPIO nodejs",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "nconf": "^0.8.4",
+    "rpio": "^0.9.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robertmantissa/nodejstest.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robertmantissa/nodejstest/issues"
+  },
+  "homepage": "https://github.com/robertmantissa/nodejstest#readme"
+}
