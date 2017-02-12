@@ -2,30 +2,43 @@
 
 var express = require('express');
 var nconf = require('nconf');
+var http = require('http');
+var https = require('https');
+var fs = require('fs');
 
 var doorOperationExecuter = require("./doorHandling/doorOperationExecuter");
-var doorOperations = require("./doorHandling/doorOperations");
+var doorOperations = require("./doorHandling/doorOperationsTest"); //use for test on non raspberry
+//var doorOperations = require("./doorHandling/doorOperations");
 
+//load config file 
 var config = require('./config.json');
 
 //Setup Doors:
 var doors = config.doors;
 
+//Setup pseudo secure path
+var secureUrl = config.secureUrl;
+
+//Load ssl cert from file
+var sslOptions = {
+  key: fs.readFileSync('./certificate/key.pem'),
+  cert: fs.readFileSync('./certificate/cert.pem'),
+  passphrase: config.sslPassword
+};
+
 //Setup server
 var PORT = 3000;
 var app = express();
- 
-var server = app.listen(PORT, function () {
-  var host = server.address().address
-  var port = server.address().port
-  console.log("Garage door app listening at http://%s:%s", host, port)
-});
 
 //Disable x-powered-by header to make i a bit harder to identify what server software we're running
 app.disable('x-powered-by'); 
 
 //Set static routes to html-pages 
-app.use(express.static( __dirname + "/public"));
+app.use('/' + secureUrl, express.static( __dirname + "/public"));
+app.use(express.static( __dirname + "/public/404.html"));
+
+//http.createServer(app).listen(PORT);
+https.createServer(sslOptions, app).listen(PORT)
 
 //Set routers to door opener
 app.get('/api/:command/:doorNumber', function (req, res, next) {
