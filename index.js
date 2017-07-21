@@ -44,7 +44,7 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.use(session({
-  secret: 'keyboard cat',
+  secret: config.sessionSecret,
   resave: true,
   saveUninitialized: true
 }) );
@@ -54,10 +54,8 @@ app.use('/', express.static( __dirname + "/public"));
 
 // Authentication and Authorization Middleware
 var auth = function(req, res, next) {
-  // console.log(req.session);
-  // console.log(req.session.user);
   if (!(req.session && req.session.user === "DoorUser" && req.session.admin))
-    res.sendFile(__dirname + '/public/index.html');
+    res.redirect('/login');
   else   
    next();
 };
@@ -65,12 +63,14 @@ var auth = function(req, res, next) {
 app.post('/login', function (req, res) {
  if(req.body.password === config.password) {
     req.session.user = "DoorUser";
-    req.session.admin = true;
-    res.sendFile(__dirname + '/loggedin/index.html'); 
+    req.session.admin = true;   
+    var hour = 3600000;
+    req.session.cookie.maxAge = 5 * 365 * 24 * hour; //5 years
+    res.redirect('/door');
   }
   else
   {
-     res.sendFile(__dirname + '/public/index.html');
+     res.redirect('/login');
   }
 });
 
@@ -81,18 +81,21 @@ app.get('/login', function (req, res) {
 });
 
 // Logout endpoint
-app.get('/logout', function (req, res) {
+app.get('/logout', auth, function (req, res) {
   req.session.destroy();
-  res.send("logout success!");
+  res.sendFile(__dirname + '/public/logout.html'); 
 });
-
 
 // Get content endpoint
 app.get('/door', auth, function (req, res) {
-    res.send("You can only see this after you've logged in.");
+    res.sendFile(__dirname + '/loggedin/index.html'); 
 });
 
-app.use(express.static( __dirname + "/public/404.html"));
+app.use(function(req, res, next){
+  res.status(404);
+   res.sendFile(__dirname + '/public/404.html'); 
+});
+
 
 //Set routers to door opener
 app.get('/api/:command/:doorNumber', auth, function (req, res, next) {
