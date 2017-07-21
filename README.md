@@ -15,4 +15,4 @@ Needs a file called config.json in the root that looks like this
 To create the ssl certificate run the following command: 
 openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 1000
 
-Copy key.pem and cert.pem to the root folder
+Copy key.pem and cert.pem to the certificate root folder

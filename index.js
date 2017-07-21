@@ -1,6 +1,10 @@
 // Per npm init: Use npm install <pkg> --save afterwards to install a package and save it as a dependency in the package.json file. – Brad Koch May 25 '13 at 23:40 
 
 var express = require('express');
+var cookieParser = require('cookie-parser')
+var session = require('express-session')
+var bodyParser = require('body-parser');
+
 var nconf = require('nconf');
 var http = require('http');
 var https = require('https');
@@ -31,17 +35,67 @@ var PORT = 3000;
 var app = express();
 
 //Disable x-powered-by header to make i a bit harder to identify what server software we're running
-app.disable('x-powered-by'); 
-
-//Set static routes to html-pages 
-app.use('/' + secureUrl, express.static( __dirname + "/public"));
-app.use(express.static( __dirname + "/public/404.html"));
+app.disable('x-powered-by');
 
 //http.createServer(app).listen(PORT);
-https.createServer(sslOptions, app).listen(PORT)
+https.createServer(sslOptions, app).listen(PORT) 
+
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true
+}) );
+
+//Set static routes to html-pages 
+app.use('/', express.static( __dirname + "/public"));
+
+// Authentication and Authorization Middleware
+var auth = function(req, res, next) {
+  // console.log(req.session);
+  // console.log(req.session.user);
+  if (!(req.session && req.session.user === "DoorUser" && req.session.admin))
+    res.sendFile(__dirname + '/public/index.html');
+  else   
+   next();
+};
+
+app.post('/login', function (req, res) {
+ if(req.body.password === config.password) {
+    req.session.user = "DoorUser";
+    req.session.admin = true;
+    res.sendFile(__dirname + '/loggedin/index.html'); 
+  }
+  else
+  {
+     res.sendFile(__dirname + '/public/index.html');
+  }
+});
+
+// Login endpoint
+app.get('/login', function (req, res) {
+     res.sendFile(__dirname + '/public/index.html'); 
+     return;  
+});
+
+// Logout endpoint
+app.get('/logout', function (req, res) {
+  req.session.destroy();
+  res.send("logout success!");
+});
+
+
+// Get content endpoint
+app.get('/door', auth, function (req, res) {
+    res.send("You can only see this after you've logged in.");
+});
+
+app.use(express.static( __dirname + "/public/404.html"));
 
 //Set routers to door opener
-app.get('/api/:command/:doorNumber', function (req, res, next) {
+app.get('/api/:command/:doorNumber', auth, function (req, res, next) {
 
   var action = req.params.command;
   var doorNumber =  req.params.doorNumber
@@ -58,6 +112,16 @@ app.get('/api/:command/:doorNumber', function (req, res, next) {
     })
 });
 
+
+
+// //catch-all route that will send an 404 
+// app.get('*', function(req, res, next) {
+//   err = new Error();
+//   err.status = 404;
+//   next(err);
+// });
+
+
 //handle errors 
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
@@ -66,12 +130,5 @@ app.use(function(err, req, res, next) {
         error: err
     });
    return;
-});
-
-//catch-all route that will send an 404 
-app.get('*', function(req, res, next) {
-  err = new Error();
-  err.status = 404;
-  next(err);
 });
 

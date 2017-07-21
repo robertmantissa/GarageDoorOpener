@@ -3,5 +3,6 @@
     { "doorNumber": 2, "openGpio": 11, "closeGpio": 13, "stopGpio": 15}
     ],
 "secureUrl": "SEKKRITURL",
-"sslPassword" : "SEKKRITPASSWORD"
+"sslPassword" : "SEKKRITPASSWORD",
+"password" : "VadKostarRäkan"
 }
