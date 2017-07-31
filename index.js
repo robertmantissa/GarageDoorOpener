@@ -1,6 +1,9 @@
 // Per npm init: Use npm install <pkg> --save afterwards to install a package and save it as a dependency in the package.json file. – Brad Koch May 25 '13 at 23:40 
 
-var express = require('express');
+var express = require('express'),
+    expressLogging = require('express-logging'),
+    logger = require('logops');
+
 var cookieParser = require('cookie-parser')
 var session = require('express-session')
 var bodyParser = require('body-parser');
@@ -33,6 +36,8 @@ var sslOptions = {
 //Setup server
 var PORT = 3000;
 var app = express();
+var blacklist = ['/script', '/css'];
+app.use(expressLogging(logger, {blacklist: blacklist, policy: 'params'}));
 
 //Disable x-powered-by header to make i a bit harder to identify what server software we're running
 app.disable('x-powered-by');
@@ -70,7 +75,7 @@ app.post('/login', function (req, res) {
   }
   else
   {
-     res.redirect('/login');
+     res.redirect('/login?WrongPassword=1');
   }
 });
 
