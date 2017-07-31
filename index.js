@@ -96,10 +96,6 @@ app.get('/door', auth, function (req, res) {
     res.sendFile(__dirname + '/loggedin/index.html'); 
 });
 
-app.use(function(req, res, next){
-  res.status(404);
-   res.sendFile(__dirname + '/public/404.html'); 
-});
 
 
 //Set routers to door opener
@@ -120,15 +116,10 @@ app.get('/api/:command/:doorNumber', auth, function (req, res, next) {
     })
 });
 
-
-
-// //catch-all route that will send an 404 
-// app.get('*', function(req, res, next) {
-//   err = new Error();
-//   err.status = 404;
-//   next(err);
-// });
-
+app.use(function(req, res, next){
+  res.status(404);
+   res.sendFile(__dirname + '/public/404.html'); 
+});
 
 //handle errors 
 app.use(function(err, req, res, next) {
