@@ -1,4 +1,6 @@
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <html>
+
 	<head>
 		<title>Garagedörren</title>
 		<script>
@@ -20,41 +22,115 @@
   <link rel="stylesheet" href="css/local.css">
   <script src="script/jquery.min.js"></script>
   <script src="script/bootstrap.min.js"></script>
-
+		
 	</head>
 	<body>
-		<div class="container-fluid">
-			<div class="col-xs-6">
-				<div class="row">
-					<p class="heading">Port 1</p> 
+		<div class="topright">
+			<a href="/logout">logga ut</a>
+		</div>
+		<div class="container">
+		<div class="text-center">
+			<div class="col-xs-6 ">
+				<div class="row col-sm-offset-2 text-center">
+					<p class="heading">Port 1</p>
 				</div>
-				<div class="row">
+				<div class="row col-sm-offset-2 text-center">
 					<button type="button " class="button btn-lg" onclick="DoorCommand('open',1)">Öppna</button>
 				</div>
-				<div class="row">
+				<div class="row col-sm-offset-2 text-center">
 					<button type="button" class="button btn-danger" onclick="DoorCommand('stop',1)">Stopp</button>
 				</div>
-				<div class="row">
+				<div class="row col-sm-offset-2 text-center">
 					<button type="button" class="button btn-lg" onclick="DoorCommand('close',1)">Stäng</button>
+				</div>
+				<div>
+					<h3><span class="label label-warning" id="door1"></span></h3>
 				</div>
 			</div>
 			<div  class="col-xs-6"  >
-				<div class="row">
-					<p class="heading">Port 2</p> 
+				<div class="row col-sm-offset-2 text-center">
+					<p class="heading">Port 2</p>
 				</div>
-				<div class="row">
+				<div class="row col-sm-offset-2 text-center">
 					<button type="button" class="button btn-lg" onclick="DoorCommand('open',2)">Öppna</button>
 				</div>
-				<div class="row">
+				<div class="row col-sm-offset-2 text-center">
 					<button type="button" class="button btn-lg btn-danger" onclick="DoorCommand('stop',2)">Stopp</button>
 				</div>
-				<div class="row">
-					<button type="button" class="button  btn-lg" onclick="DoorCommand('close',2)">Stäng</button>
+				<div class="row col-sm-offset-2">
+					<button type="button" class="button btn-lg" onclick="DoorCommand('close',2)">Stäng</button>
 				</div>
-			</div>
-
+				<div>
+					<h3> <span class="label label-info" id="door2"></span></h3>
+				</div>
 		</div>
-		<a href="/logout">logga ut</a>
-		<a href="http://garagepi:8081/">Kamera</a>
+		</div>
+		</div>
+		 <div id="footer">
+        <div id="center">
+            	<a href="http://garagepi:8081/">Kamera</a> | <a href="http://garagepi:8081/">Log</a> | Ute: 20&deg;c | Inne: 20&deg;c
+        </div>
+    </div>
+
+		<script>
+			var openLabelClass =  "label label-danger text-center";
+			var closedLabelClass =  "label label-success text-center";
+			var doors = [
+    			{ elementId: "door1", doorId: 1},
+				{ elementId: "door2", doorId: 2}];
+			
+			for (i in doors)
+			{
+				var door = doors[i];
+				if (DoorCommand('isOpen', door.doorId))
+				{
+					document.getElementById(door.elementId).className = openLabelClass;
+					document.getElementById(door.elementId).innerHTML = "Öppen";
+				}
+				else
+				{
+					document.getElementById(door.elementId).className = closedLabelClass;
+				    document.getElementById(door.elementId).innerHTML = "Stängd";
+				}
+			}
+
+			// 	if (DoorCommand('isOpen',1))
+			// 	{
+			// 		door1 = "Öppen";
+			// 		document.getElementById(elementId).className = openLabelClass;
+			// 	}
+			// 	else
+			// 	{
+			// 		door1 = "Stängd";
+			// 		document.getElementById(elementId).className = closedLabelClass;
+			// 	}
+			// document.getElementById(elementId).innerHTML = door1;
+
+			// });
+
+			// if (DoorCommand('isOpen',1))
+			// {
+			// 	door1 = "Öppen";
+			// 	document.getElementById(elementId).className = openLabelClass;
+			// }
+			// else
+			// {
+			// 	door1 = "Stängd";
+			// 	document.getElementById(elementId).className = closedLabelClass;
+			// }
+			// document.getElementById(elementId).innerHTML = door1;
+		    
+			// var door2;
+			// if (DoorCommand('isOpen',2))
+			// {
+			// 	door2 = "Öppen";
+			// }
+			// else
+			// {
+			// 	door2 = "Stängd";
+			// }
+			// document.getElementById("Open2").innerHTML = door2;
+	    </script>
+
 
 </html>

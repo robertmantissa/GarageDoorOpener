@@ -109,7 +109,7 @@ app.get('/api/:command/:doorNumber', auth, function (req, res, next) {
         next(err);
         return;
       }
-      var message = 'Command ' + action + ' sent to door: '  + doorNumber ; 
+      var message = 'Command ' + action + ' sent to door: '  + doorNumber + ' with result ' + data; 
       res.send({
         message : message
       });

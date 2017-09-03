@@ -17,6 +17,12 @@ function stop(door)
     toggleGpio(door.stopGpio);
 }
 
+function isOpen(door)
+{
+      console.log("Read door " + door.doorNumber + " gpio " + door.switchGpio);
+      return readGpio(door.switchGpio);
+}
+
 
 function toggleGpio(gpio)
 {
@@ -30,6 +36,13 @@ function toggleGpio(gpio)
     rpio.write(gpio, rpio.HIGH);
 }
 
+function readGpio(gpio)
+{
+    rpio.open(pin, rpio.INPUT);
+    return rpio.read(pin)
+}
+
 exports.open = open;
 exports.close = close;
 exports.stop = stop;
+exports.isOpen = isOpen;

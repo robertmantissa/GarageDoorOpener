@@ -9,8 +9,8 @@ function execute(doorOperation, doors, doorNumber, action, callback)
 
     if(typeof doorOperation[action] === 'function')
     {
-        doorOperation[action](door);
-        callback(null, true)
+        var result = doorOperation[action](door);
+        callback(null, result)
     }
     else
     {

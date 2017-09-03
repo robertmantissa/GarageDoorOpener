@@ -1,8 +1,8 @@
 {"doors": [
-    { "doorNumber": 1, "openGpio": 3, "closeGpio": 5, "stopGpio": 7},
-    { "doorNumber": 2, "openGpio": 11, "closeGpio": 13, "stopGpio": 15}
+    { "doorNumber": 1, "openGpio": 3, "closeGpio": 5, "stopGpio": 7, "switchGpio": 12},
+    { "doorNumber": 2, "openGpio": 11, "closeGpio": 13, "stopGpio": 15, "switchGpio": 18}
     ],
-"sslPassword" : "qwerty",
+"sslPassword" : "hemligt",
 "password" : "V",
 "sessionSecret" : "Yadayay"
 }
