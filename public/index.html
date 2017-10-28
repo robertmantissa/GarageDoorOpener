@@ -1,32 +1,36 @@
 <html lang="sv">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
-
-    <title>Garagedörren</title>
+    <title>Garagedörren - Logga in</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/local.css">
     <script src="script/jquery.min.js"></script>
     <script src="script/bootstrap.min.js"></script>
-
+    <script type="text/javascript"> 
+        $(function () {
+            if (document.location.href.indexOf('WrongPassword=1') > 0)
+                $("#WrongPwd").show();
+            else
+                $("#WrongPwd").hide();
+        }); 
+    </script>
 </head>
 
 <body>
     <div class="container">
         <form class="form-signin" action="/login" method="post">
-            <h2 class="form-signin-heading">Logga in</h2>
             <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Lösenord" name="password" required autofocus >
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Logga in</button>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Lösenord" name="password" required autofocus>
+            <div id="WrongPwd">
+                Fel lösenord!
+            </div>
+            <button class="btn btn-lg btn-primary" type="submit">Logga in</button>
         </form>
     </div>
+
 </body>
 
 </html>

@@ -3,6 +3,7 @@
     { "doorNumber": 2, "openGpio": 11, "closeGpio": 13, "stopGpio": 15, "switchGpio": 18}
     ],
 "sslPassword" : "hemligt",
-"password" : "V",
+"password" : "",
+"salt" : "",
 "sessionSecret" : "Yadayay"
 }

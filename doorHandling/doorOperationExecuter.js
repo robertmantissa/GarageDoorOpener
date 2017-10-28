@@ -4,18 +4,17 @@ function execute(doorOperation, doors, doorNumber, action, callback)
     if (!door)
     {
         var errorMessage = "Door not found: '" + doorNumber +"'";
-        callback(new Error(errorMessage),null);
+        callback(new Error(errorMessage), null);
     }
 
     if(typeof doorOperation[action] === 'function')
     {
-        var result = doorOperation[action](door);
-        callback(null, result)
+        doorOperation[action](door, callback);
     }
     else
     {
         var errorMessage = "Door operation not found: '" + action + "'";
-        err(new Error(errorMessage),null);
+        callback(new Error(errorMessage), null);
         return;
     }
 }

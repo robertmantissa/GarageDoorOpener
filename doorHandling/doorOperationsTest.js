@@ -1,23 +1,26 @@
-function open(door)
+function open(door, callback)
 {
     console.log("Open door " + door.doorNumber + " gpio " + door.openGpio);
+    callback(null, null)
 }
 
-function close(door)
+function close(door, callback)
 {
     console.log("Close door " + door.doorNumber + " gpio " + door.closeGpio);
+    callback(null, null)
 }
 
-function stop(door)
+function stop(door, callback)
 {
     console.log("Stop door " + door.doorNumber + " gpio " + door.stopGpio);
+    callback(null, null)
 }
 
 
-function isOpen(door)
+function isOpen(door, callback)
 {
       console.log("Read door " + door.doorNumber + " gpio " + door.switchGpio);
-      return false;
+      callback(null, true)
 }
 
 exports.open = open;

@@ -1,23 +1,23 @@
 var rpio = require('rpio');
-function open(door)
+function open(door, callback)
 {
     console.log("Open door " + door.doorNumber + " gpio " + door.openGpio);
-    toggleGpio(door.openGpio);
+    return toggleGpio(door.openGpio);
 }
 
-function close(door)
+function close(door, callback)
 {
     console.log("Close door " + door.doorNumber + " gpio " + door.closeGpio);
-    toggleGpio(door.closeGpio);
+    return toggleGpio(door.closeGpio);
 }
 
-function stop(door)
+function stop(door, callback)
 {
     console.log("Stop door " + door.doorNumber + " gpio " + door.stopGpio);
-    toggleGpio(door.stopGpio);
+    return toggleGpio(door.stopGpio);
 }
 
-function isOpen(door)
+function isOpen(door, callback)
 {
       console.log("Read door " + door.doorNumber + " gpio " + door.switchGpio);
       return readGpio(door.switchGpio);
@@ -34,6 +34,7 @@ function toggleGpio(gpio)
     rpio.write(gpio, rpio.LOW);
     rpio.msleep(500);
     rpio.write(gpio, rpio.HIGH);
+    return true;
 }
 
 function readGpio(gpio)

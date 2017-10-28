@@ -9,6 +9,8 @@
     "express": "^4.14.0",
     "express-logging": "^1.1.1",
     "express-session": "~1.15.1",
+    "hasha": "^3.0.0",
+    "jquery": "^3.2.1",
     "logops": "^2.1.0",
     "nconf": "^0.8.4",
     "rpio": "^0.9.11"

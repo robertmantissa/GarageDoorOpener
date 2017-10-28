@@ -1,136 +1,124 @@
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta charset="utf-8">
+	<title>Garagedörren</title>
+	
+	<script>
+		function DoorCommand(command, port) {
+			$.ajax({
+				type: "GET",
+				url: "/api/" + command + "/" + port
+			});
+		}
 
-	<head>
-		<title>Garagedörren</title>
-		<script>
-			function DoorCommand(command, port) {
-			    var xhttp = new XMLHttpRequest();
-			    xhttp.open("get", "/api/" + command + "/" + port, false);
-			    xhttp.setRequestHeader("Content-type", "application/json");
-			    xhttp.send();
-			    var response = JSON.parse(xhttp.responseText);
-			}
-		</script>
-		  <meta charset="utf-8">
-  <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-  <!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
-  
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/local.css">
-  <script src="script/jquery.min.js"></script>
-  <script src="script/bootstrap.min.js"></script>
-		
-	</head>
-	<body>
-		<div class="topright">
-			<a href="/logout">logga ut</a>
-		</div>
-		<div class="container">
+		function ManualDoorCommand(command, port, button) {
+			$.ajax({
+				type: "GET",
+				url: "/api/" + command + "/" + port,
+				beforeSend: function () {
+					button.disabled = true;
+					//$('.btn').addClass('disabled');
+				},
+				statusCode: {
+					401: function () {
+						window.location.replace("/");
+					}
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert("AGRH! Kan inte ladda sidan: " + textStatus + ", " + errorThrown);
+				},
+				complete: function (data) {
+					button.disabled = false;
+				},
+			});
+		}
+	</script>
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/local.css">
+	<script src="script/jquery.min.js"></script>
+	<script src="script/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+	<div class="topright">
+		<a href="/logout">logga ut</a>
+	</div>
+	<div class="container">
 		<div class="text-center">
 			<div class="col-xs-6 ">
-				<div class="row col-sm-offset-2 text-center">
+				<div class="row col-sm-offset-2">
 					<p class="heading">Port 1</p>
 				</div>
-				<div class="row col-sm-offset-2 text-center">
-					<button type="button " class="button btn-lg" onclick="DoorCommand('open',1)">Öppna</button>
-				</div>
-				<div class="row col-sm-offset-2 text-center">
-					<button type="button" class="button btn-danger" onclick="DoorCommand('stop',1)">Stopp</button>
-				</div>
-				<div class="row col-sm-offset-2 text-center">
-					<button type="button" class="button btn-lg" onclick="DoorCommand('close',1)">Stäng</button>
-				</div>
-				<div>
-					<h3><span class="label label-warning" id="door1"></span></h3>
-				</div>
-			</div>
-			<div  class="col-xs-6"  >
-				<div class="row col-sm-offset-2 text-center">
-					<p class="heading">Port 2</p>
-				</div>
-				<div class="row col-sm-offset-2 text-center">
-					<button type="button" class="button btn-lg" onclick="DoorCommand('open',2)">Öppna</button>
-				</div>
-				<div class="row col-sm-offset-2 text-center">
-					<button type="button" class="button btn-lg btn-danger" onclick="DoorCommand('stop',2)">Stopp</button>
+				<div class="row col-sm-offset-2">
+					<button type="button " class="port-btn btn-lg" onclick="ManualDoorCommand('open', 1, this)">
+						<span class="spinner">
+							<i class="icon-spin icon-refresh"></i>
+						</span> Öppna
+					</button>
 				</div>
 				<div class="row col-sm-offset-2">
-					<button type="button" class="button btn-lg" onclick="DoorCommand('close',2)">Stäng</button>
+					<button type="button" class="port-btn btn-lg btn-block btn-danger" onclick="ManualDoorCommand('stop', 1, this)">Stopp</button>
+				</div>
+				<div class="row col-sm-offset-2">
+					<button type="button" class="port-btn btn-lg" onclick="ManualDoorCommand('close', 1, this)">Stäng</button>
 				</div>
 				<div>
-					<h3> <span class="label label-info" id="door2"></span></h3>
+					<h3>
+						<span class="label label-warning" id="door1"></span>
+					</h3>
 				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="row col-sm-offset-2">
+					<p class="heading">Port 2</p>
+				</div>
+				<div class="row col-sm-offset-2">
+					<button type="button" class="port-btn btn-lg" onclick="ManualDoorCommand('open', 2, this)">Öppna</button>
+				</div>
+				<div class="row col-sm-offset-2">
+					<button type="button" class="port-btn btn-lg btn-danger" onclick="ManualDoorCommand('stop', 2, this)">Stopp</button>
+				</div>
+				<div class="row col-sm-offset-2">
+					<button type="button" class="port-btn btn-lg" onclick="ManualDoorCommand('close', 2, this)">
+						</span>Stäng</button>
+				</div>
+				<div>
+					<h3>
+						<span class="label label-info" id="door2"></span>
+					</h3>
+				</div>
+			</div>
 		</div>
+	</div>
+	<div id="footer">
+		<div id="center">
+			<a href="http://garagepi:8081/">Kamera</a> |
+			<a href="http://garagepi:8081/">Log</a> | Ute: 20&deg;c | Inne: 20&deg;c
 		</div>
-		</div>
-		 <div id="footer">
-        <div id="center">
-            	<a href="http://garagepi:8081/">Kamera</a> | <a href="http://garagepi:8081/">Log</a> | Ute: 20&deg;c | Inne: 20&deg;c
-        </div>
-    </div>
+	</div>
 
-		<script>
-			var openLabelClass =  "label label-danger text-center";
-			var closedLabelClass =  "label label-success text-center";
-			var doors = [
-    			{ elementId: "door1", doorId: 1},
-				{ elementId: "door2", doorId: 2}];
-			
-			for (i in doors)
-			{
-				var door = doors[i];
-				if (DoorCommand('isOpen', door.doorId))
-				{
-					document.getElementById(door.elementId).className = openLabelClass;
-					document.getElementById(door.elementId).innerHTML = "Öppen";
-				}
-				else
-				{
-					document.getElementById(door.elementId).className = closedLabelClass;
-				    document.getElementById(door.elementId).innerHTML = "Stängd";
-				}
+	<script>
+		var openLabelClass = "label label-danger";
+		var closedLabelClass = "label label-success";
+		var doors = [
+			{ elementId: "door1", doorId: 1 },
+			{ elementId: "door2", doorId: 2 }];
+
+		for (i in doors) {
+			var door = doors[i];
+			if (DoorCommand('isOpen', door.doorId)) {
+				document.getElementById(door.elementId).className = openLabelClass;
+				document.getElementById(door.elementId).innerHTML = "Öppen";
 			}
-
-			// 	if (DoorCommand('isOpen',1))
-			// 	{
-			// 		door1 = "Öppen";
-			// 		document.getElementById(elementId).className = openLabelClass;
-			// 	}
-			// 	else
-			// 	{
-			// 		door1 = "Stängd";
-			// 		document.getElementById(elementId).className = closedLabelClass;
-			// 	}
-			// document.getElementById(elementId).innerHTML = door1;
-
-			// });
-
-			// if (DoorCommand('isOpen',1))
-			// {
-			// 	door1 = "Öppen";
-			// 	document.getElementById(elementId).className = openLabelClass;
-			// }
-			// else
-			// {
-			// 	door1 = "Stängd";
-			// 	document.getElementById(elementId).className = closedLabelClass;
-			// }
-			// document.getElementById(elementId).innerHTML = door1;
-		    
-			// var door2;
-			// if (DoorCommand('isOpen',2))
-			// {
-			// 	door2 = "Öppen";
-			// }
-			// else
-			// {
-			// 	door2 = "Stängd";
-			// }
-			// document.getElementById("Open2").innerHTML = door2;
-	    </script>
-
+			else {
+				document.getElementById(door.elementId).className = closedLabelClass;
+				document.getElementById(door.elementId).innerHTML = "Stängd";
+			}
+		}
+	</script>
+</body>
 
 </html>
