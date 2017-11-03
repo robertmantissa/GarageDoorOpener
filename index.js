@@ -105,7 +105,7 @@ app.get('/logout', auth, function (req, res) {
 
 // Get content endpoint
 app.get('/door', auth, function (req, res) {
-  res.sendFile(__dirname + '/loggedin/index.html');
+  res.sendFile(__dirname + '/loggedIn/index.html');
 });
 
 

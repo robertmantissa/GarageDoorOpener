@@ -18,7 +18,6 @@
 				url: "/api/" + command + "/" + port,
 				beforeSend: function () {
 					button.disabled = true;
-					//$('.btn').addClass('disabled');
 				},
 				statusCode: {
 					401: function () {
@@ -26,7 +25,7 @@
 					}
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
-					alert("AGRH! Kan inte ladda sidan: " + textStatus + ", " + errorThrown);
+					alert("AGRH! något gick fel: " + textStatus + ", " + errorThrown);
 				},
 				complete: function (data) {
 					button.disabled = false;
@@ -95,20 +94,23 @@
 	</div>
 	<div id="footer">
 		<div id="center">
-			<a href="http://garagepi:8081/">Kamera</a> |
-			<a href="http://garagepi:8081/">Log</a> | Ute: 20&deg;c | Inne: 20&deg;c
+			<a href="http://garagepi:8081/">Kamera</a> 
+			<!-- | -->
+			<!-- <a href="http://garagepi:8081/">Log</a> | Ute: 20&deg;c | Inne: 20&deg;c -->
 		</div>
 	</div>
 
 	<script>
 		var openLabelClass = "label label-danger";
 		var closedLabelClass = "label label-success";
+		var unknownLabelClass = "label label-default";
 		var doors = [
 			{ elementId: "door1", doorId: 1 },
 			{ elementId: "door2", doorId: 2 }];
 
 		for (i in doors) {
 			var door = doors[i];
+		
 			if (DoorCommand('isOpen', door.doorId)) {
 				document.getElementById(door.elementId).className = openLabelClass;
 				document.getElementById(door.elementId).innerHTML = "Öppen";
@@ -117,6 +119,8 @@
 				document.getElementById(door.elementId).className = closedLabelClass;
 				document.getElementById(door.elementId).innerHTML = "Stängd";
 			}
+			document.getElementById(door.elementId).className = unknownLabelClass;
+			document.getElementById(door.elementId).innerHTML = "Status: okänd";
 		}
 	</script>
 </body>
