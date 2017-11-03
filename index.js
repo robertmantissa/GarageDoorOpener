@@ -36,8 +36,8 @@ var secureUrl = config.secureUrl;
 
 //Load ssl cert from file
 var sslOptions = {
-  key: fs.readFileSync('./certificate/key.pem'),
-  cert: fs.readFileSync('./certificate/cert.pem'),
+  key: fs.readFileSync(process.cwd() + '/certificate/key.pem'),
+  cert: fs.readFileSync(process.cwd() + '/certificate/cert.pem'),
   passphrase: config.sslPassword
 };
 
