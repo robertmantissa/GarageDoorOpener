@@ -3,7 +3,9 @@
     { "doorNumber": 2, "openGpio": 11, "closeGpio": 13, "stopGpio": 15, "switchGpio": 18}
     ],
 "sslPassword" : "hemligt",
-"password" : "9486075f27c24efbea423d52c55327936bb823af0873c7eb7c98fa705631a558573972e3f405e88c68bd7e5d72dac8493de7395f2db01e1616e30f079bf4559b",
-"salt" : "222f1f0444c3a3fc67ff4af370a",
-"sessionSecret" : "Yadayay"
+ "password" : "579d69862347d70ea6cc7c942880cfa7187dc7776f681cad10a54f749a38bfce29ff07ca7fa60b0efa41451b929f6c7327711f249ed18ea6b7d20c90a36b2a51",
+"salt" : "saltSalt",
+"sessionSecret" : "SomeSecret",
+"httpPort" : 3000,
+"testMode" : true
 }

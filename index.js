@@ -15,11 +15,18 @@ var fs = require('fs');
 var hasha = require('hasha');
 
 var doorOperationExecuter = require("./doorHandling/doorOperationExecuter");
-var doorOperations = require("./doorHandling/doorOperationsTest"); //use for test on non raspberry
-//var doorOperations = require("./doorHandling/doorOperations");
 
 //load config file 
 var config = require('./config.json');
+
+//mock gpio in test mode:
+var doorOperations; 
+if (config.testMode){
+  doorOperations = require("./doorHandling/doorOperationsTest"); //use for test on non raspberry
+}
+else{
+  doorOperations = require("./doorHandling/doorOperations");
+}
 
 //Setup Doors:
 var doors = config.doors;
@@ -35,7 +42,7 @@ var sslOptions = {
 };
 
 //Setup server
-var PORT = 3000;
+var PORT = config.httpPort;
 var app = express();
 var blacklist = ['/script', '/css'];
 app.use(expressLogging(logger, { blacklist: blacklist, policy: 'message' }));
