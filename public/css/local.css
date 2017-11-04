@@ -1,20 +1,38 @@
- .port-btn {
+.label {
   display: block; 
   text-align:center;
-  margin: 3px; /*for centering purposes*/
+  margin-left:auto;
+  margin-right:auto;
   width: 80%;  
+  height: 35px; 
+  font-size: 20px; /* fallback */
+  font-size: 2vh;
+  line-height: 30px;
+  white-space: nowrap;
+} 
+
+.port-btn {
+  display: block; 
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom: 2%;
+  width: 90%;  
   height: 17%; 
-  font-size: 100px; /* fallback */
-  font-size: 6vh;
+  font-size: 40px; /* fallback */
+  font-size: 5vh;
+  
 } 
 
 .heading
 {
   display: block; 
   text-align:center;
-  width: 80%;  
-  font-size: 100px; /* fallback */
-  font-size: 6vh;
+  width: 90%; 
+  margin-left:auto;
+  margin-right:auto; 
+  font-size: 40px; /* fallback */
+  font-size: 5vh;
 }
 
 /* centered columns styles */
@@ -33,7 +51,7 @@
 body {
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #999999;
+  background-color: #CCCCCC;
 }
 
 .form-signin {

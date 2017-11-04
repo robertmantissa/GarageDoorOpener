@@ -46,55 +46,52 @@
 		<a href="/logout">logga ut</a>
 	</div>
 	<div class="container">
-		<div class="text-center">
 			<div class="col-xs-6 ">
-				<div class="row col-sm-offset-2">
+				<div class="row">
 					<p class="heading">Port 1</p>
 				</div>
-				<div class="row col-sm-offset-2">
-					<button type="button " class="port-btn btn-lg" onclick="ManualDoorCommand('open', 1, this)">
+				<div class="row">
+					<button type="button " class="port-btn btn-lg btn-default" onclick="ManualDoorCommand('open', 1, this)">
 						<span class="spinner">
 							<i class="icon-spin icon-refresh"></i>
 						</span> Öppna
 					</button>
 				</div>
-				<div class="row col-sm-offset-2">
+				<div class="row">
 					<button type="button" class="port-btn btn-lg btn-block btn-danger" onclick="ManualDoorCommand('stop', 1, this)">Stopp</button>
 				</div>
-				<div class="row col-sm-offset-2">
-					<button type="button" class="port-btn btn-lg" onclick="ManualDoorCommand('close', 1, this)">Stäng</button>
+				<div class="row">
+					<button type="button" class="port-btn btn-lg btn-default" onclick="ManualDoorCommand('close', 1, this)">Stäng</button>
 				</div>
-				<div>
+				<div  class="row">
 					<h3>
 						<span class="label label-warning" id="door1"></span>
 					</h3>
 				</div>
 			</div>
 			<div class="col-xs-6">
-				<div class="row col-sm-offset-2">
+				<div class="row">
 					<p class="heading">Port 2</p>
 				</div>
-				<div class="row col-sm-offset-2">
-					<button type="button" class="port-btn btn-lg" onclick="ManualDoorCommand('open', 2, this)">Öppna</button>
+				<div class="row">
+					<button type="button" class="port-btn btn-lg btn-default" onclick="ManualDoorCommand('open', 2, this)">Öppna</button>
 				</div>
-				<div class="row col-sm-offset-2">
+				<div class="row">
 					<button type="button" class="port-btn btn-lg btn-danger" onclick="ManualDoorCommand('stop', 2, this)">Stopp</button>
 				</div>
-				<div class="row col-sm-offset-2">
-					<button type="button" class="port-btn btn-lg" onclick="ManualDoorCommand('close', 2, this)">
-						</span>Stäng</button>
+				<div class="row">
+					<button type="button" class="port-btn btn-lg btn-default" onclick="ManualDoorCommand('close', 2, this)">Stäng</button>
 				</div>
-				<div>
+				<div  class="row">
 					<h3>
 						<span class="label label-info" id="door2"></span>
 					</h3>
 				</div>
 			</div>
-		</div>
 	</div>
 	<div id="footer">
 		<div id="center">
-			<a href="http://garagepi:8081/">Kamera</a> 
+			<a href="http://192.168.0.200:8081/">Kamera</a> 
 			<!-- | -->
 			<!-- <a href="http://garagepi:8081/">Log</a> | Ute: 20&deg;c | Inne: 20&deg;c -->
 		</div>
