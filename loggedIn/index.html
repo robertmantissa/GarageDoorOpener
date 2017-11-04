@@ -3,42 +3,101 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<meta charset="utf-8">
 	<title>Garagedörren</title>
-	
-	<script>
-		function DoorCommand(command, port) {
-			$.ajax({
-				type: "GET",
-				url: "/api/" + command + "/" + port
-			});
-		}
-
-		function ManualDoorCommand(command, port, button) {
-			$.ajax({
-				type: "GET",
-				url: "/api/" + command + "/" + port,
-				beforeSend: function () {
-					button.disabled = true;
-				},
-				statusCode: {
-					401: function () {
-						window.location.replace("/");
-					}
-				},
-				error: function (jqXHR, textStatus, errorThrown) {
-					alert("AGRH! något gick fel: " + textStatus + ", " + errorThrown);
-				},
-				complete: function (data) {
-					button.disabled = false;
-				},
-			});
-		}
-	</script>
 
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/local.css">
 	<script src="script/jquery.min.js"></script>
 	<script src="script/bootstrap.min.js"></script>
+	
+	<script>
+		window.onload = function() {
+			CheckDoorState();
+		};
+			var openLabelClass = "label label-danger";
+			var closedLabelClass = "label label-success";
+			var unknownLabelClass = "label label-default";
+			var ongoingActionLabelClass = "label label-info";
+			
+			var doors = [
+				{ elementId: "door1", doorId: 1 },
+				{ elementId: "door2", doorId: 2 }];
+	
+			function DoorCommand(command, port) {
+				$.ajax({
+					type: "GET",
+					url: "/api/" + command + "/" + port
+				});
+			}
+	
+			function ManualDoorCommand(command, port, button) {
+				$.ajax({
+					type: "GET",
+					url: "/api/" + command + "/" + port,
+					beforeSend: function () {
+						button.disabled = true;
+						var door = doors[port-1];
 
+						SetState(door, ongoingActionLabelClass, "Kör: " +  GetLabelForCommand(command));
+					},
+					statusCode: {
+						401: function () {
+							window.location.replace("/");
+						}
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						alert("AGRH! något gick fel: " + textStatus + ", " + errorThrown);
+					},
+					complete: function (data) {
+						button.disabled = false;
+						setTimeout(function(){ 
+							CheckDoorState();
+						}, 1000);
+					}
+				});
+			}
+	
+			function CheckDoorState()
+			{
+				for (i in doors) {
+					var door = doors[i];
+				
+					// if (DoorCommand('isOpen', door.doorId)) {
+					// 	document.getElementById(door.elementId).className = openLabelClass;
+					// 	document.getElementById(door.elementId).innerHTML = "Öppen";
+					// }
+					// else 
+					// {
+					// 	document.getElementById(door.elementId).className = closedLabelClass;
+					// 	document.getElementById(door.elementId).innerHTML = "Stängd";
+					// }
+					document.getElementById(door.elementId).className = unknownLabelClass;
+					document.getElementById(door.elementId).innerHTML = "OK";
+				}
+			}
+
+			function SetState(door, cssClass, text){
+
+				document.getElementById(door.elementId).className = cssClass;
+				document.getElementById(door.elementId).innerHTML = text;
+			}
+
+			function GetLabelForCommand(command)
+			{
+				
+				var commandLabels = [
+					{ command: "open", label: "Öppna" },
+					{ command: "stop", label: "Stopp" },
+					{ command: "close", label: "Stäng" }];
+
+				for (i in commandLabels)
+				{
+					var commandLabel = commandLabels[i];
+					if (commandLabel.command === command)
+						return commandLabel.label;
+				}
+			}
+
+		</script>
 </head>
 
 <body>
@@ -96,30 +155,6 @@
 			<!-- <a href="http://garagepi:8081/">Log</a> | Ute: 20&deg;c | Inne: 20&deg;c -->
 		</div>
 	</div>
-
-	<script>
-		var openLabelClass = "label label-danger";
-		var closedLabelClass = "label label-success";
-		var unknownLabelClass = "label label-default";
-		var doors = [
-			{ elementId: "door1", doorId: 1 },
-			{ elementId: "door2", doorId: 2 }];
-
-		for (i in doors) {
-			var door = doors[i];
-		
-			if (DoorCommand('isOpen', door.doorId)) {
-				document.getElementById(door.elementId).className = openLabelClass;
-				document.getElementById(door.elementId).innerHTML = "Öppen";
-			}
-			else {
-				document.getElementById(door.elementId).className = closedLabelClass;
-				document.getElementById(door.elementId).innerHTML = "Stängd";
-			}
-			document.getElementById(door.elementId).className = unknownLabelClass;
-			document.getElementById(door.elementId).innerHTML = "Status: okänd";
-		}
-	</script>
 </body>
 
 </html>
