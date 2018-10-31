@@ -2,8 +2,11 @@
     { "doorNumber": 1, "openGpio": 3, "closeGpio": 5, "stopGpio": 7, "switchGpio": 12},
     { "doorNumber": 2, "openGpio": 11, "closeGpio": 13, "stopGpio": 15, "switchGpio": 18}
     ],
-"sslPassword" : "hemligt",
- "password" : "579d69862347d70ea6cc7c942880cfa7187dc7776f681cad10a54f749a38bfce29ff07ca7fa60b0efa41451b929f6c7327711f249ed18ea6b7d20c90a36b2a51",
+"lamps": [
+    { "lampNumber": 1, "gpio": 19}
+    ],
+"sslPassword" : "1234",
+ "password" : "0eb4c4bee335cc5ebedd77a13c464f398d6c1d16fb9da674a290d25e30e3d9d77f83e38589ae330bf0ef444b56a546f7ab4aa229e90a5a0dcdc27e7878530b54",
 "salt" : "saltSalt",
 "sessionSecret" : "SomeSecret",
 "httpPort" : 3000,
