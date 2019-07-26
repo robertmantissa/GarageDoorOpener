@@ -4,16 +4,16 @@
   "description": "Various test projects. Mostly GPIO nodejs",
   "main": "index.js",
   "dependencies": {
-    "body-parser": "~1.16.1",
-    "cookie-parser": "~1.4.3",
-    "express": "^4.14.0",
+    "body-parser": "~1.19.0",
+    "cookie-parser": "~1.4.4",
+    "express": "^4.17.1",
     "express-logging": "^1.1.1",
-    "express-session": "~1.15.1",
-    "hasha": "^3.0.0",
-    "jquery": "^3.2.1",
+    "express-session": "~1.16.2",
+    "hasha": "^5.0.0",
+    "jquery": "^3.4.1",
     "logops": "^2.1.0",
-    "nconf": "^0.8.4",
-    "rpio": "^0.9.11"
+    "nconf": "^0.10.0",
+    "rpio": "^1.0.13"
   },
   "devDependencies": {},
   "scripts": {
