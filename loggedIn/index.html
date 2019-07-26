@@ -55,6 +55,33 @@
 					}
 				});
 			}
+
+			function LampCommand(command, lamp, button) {
+				$.ajax({
+					type: "GET",
+					url: "/api/lamp/" + command + "/" + lamp,
+					beforeSend: function () {
+						button.disabled = true;
+						//var door = doors[port-1];
+
+						//SetState(door, ongoingActionLabelClass, "Kör: " +  GetLabelForCommand(command));
+					},
+					statusCode: {
+						401: function () {
+							window.location.replace("/");
+						}
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						alert("AGRH! något gick fel: " + textStatus + ", " + errorThrown);
+					},
+					complete: function (data) {
+						button.disabled = false;
+						setTimeout(function(){ 
+							CheckLampState();
+						}, 1000);
+					}
+				});
+			}
 	
 			function CheckDoorState()
 			{
@@ -73,6 +100,13 @@
 					document.getElementById(door.elementId).className = unknownLabelClass;
 					document.getElementById(door.elementId).innerHTML = "OK";
 				}
+			}
+			function CheckLampState()
+			{
+			
+				document.getElementById("lamp1").className = unknownLabelClass;
+				document.getElementById("lamp1").innerHTML = "OK";
+				
 			}
 
 			function SetState(door, cssClass, text){
@@ -141,11 +175,24 @@
 				<div class="row">
 					<button type="button" class="port-btn btn-lg btn-default" onclick="ManualDoorCommand('close', 2, this)">Stäng</button>
 				</div>
+				
 				<div  class="row">
 					<h3>
 						<span class="label label-info" id="door2"></span>
 					</h3>
 				</div>
+				
+			</div>
+			<div class="row">
+				<button type="button" class="port-btn btn-lg btn-default" onclick="LampCommand('on',1, this)">Lampa på</button>
+			</div>
+			<div class="row">
+				<button type="button" class="port-btn btn-lg btn-default" onclick="LampCommand('off',1, this)">Lampa av<button>
+			</div>
+			<div  class="row">
+				<h3>
+					<span class="label label-info" id="lamp1"></span>
+				</h3>
 			</div>
 	</div>
 	<div id="footer">

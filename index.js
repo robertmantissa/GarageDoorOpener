@@ -15,28 +15,35 @@ var fs = require('fs');
 var hasha = require('hasha');
 
 var doorOperationExecuter = require("./doorHandling/doorOperationExecuter");
+var lampOperationExecuter = require("./lampHandling/lampOperationExecuter");
 
 //load config file 
 var config = require('./config.json');
 
 //mock gpio in test mode:
-var doorOperations; 
+var doorOperations;
+var lampOperations;
 if (config.testMode){
-  doorOperations = require("./doorHandling/doorOperationsTest"); //use for test on non raspberry
+  doorOperations = require("./doorHandling/doorOperationsTest"); //use for test on non 
+  lampOperations = require("./lampHandling/lampOperationsTest");
 }
 else{
   doorOperations = require("./doorHandling/doorOperations");
+  lampOperations = require("./lampHandling/lampOperations")
 }
 
 //Setup Doors:
 var doors = config.doors;
+
+//Setup Lamps:
+var lamps = config.lamps
 
 //Setup pseudo secure path
 var secureUrl = config.secureUrl;
 
 //Load ssl cert from file
 var sslOptions = {
-  key: fs.readFileSync(__dirname + '/certificate/key.pem'),
+  key: fs.readFileSync(__dirname + '/certificate/privkey.pem'),
   cert: fs.readFileSync(__dirname + '/certificate/cert.pem'),
   passphrase: config.sslPassword
 };
@@ -115,6 +122,26 @@ app.get('/door', auth, function (req, res) {
   res.sendFile(__dirname + '/loggedIn/index.html');
 });
 
+//Set routers to door opener
+app.get('/api/lamp/:command/:lampNumber', auth, function (req, res, next) {
+
+  var action = req.params.command;
+  var lampNumber = req.params.lampNumber
+  var result;
+  lampOperationExecuter.execute(lampOperations, lamps, lampNumber, action, function (err, data) {
+    if (err) {
+      next(err);
+      return;
+    }
+    result = data;
+  })
+
+  var message = 'Command ' + action + ' sent to lamp: ' + lampNumber + ' with result ' + result;
+  res.status(200);
+  res.send({
+    message: message
+  });
+});
 
 
 //Set routers to door opener
